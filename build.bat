@@ -14,7 +14,16 @@ if %errorlevel% neq 0 (
     exit /b 1
 )
 
-echo [1/2] Building React frontend...
+echo [1/3] Installing dependencies...
+call npm install
+if %errorlevel% neq 0 (
+    echo [ERROR] npm install failed.
+    pause
+    exit /b 1
+)
+
+echo.
+echo [2/3] Building React frontend...
 call npx vite build
 if %errorlevel% neq 0 (
     echo [ERROR] Vite build failed.
@@ -23,10 +32,10 @@ if %errorlevel% neq 0 (
 )
 
 echo.
-echo [2/2] Packaging Electron app...
-call npx electron-packager . NotaraCBR --platform=win32 --arch=x64 --out=dist-electron --overwrite --ignore="^/src" --ignore="^/\.git" --ignore="^/dist-electron" --electron-version=31.7.7 --icon=public/icon.ico
+echo [3/3] Packaging + creating installer...
+call npx electron-builder --win
 if %errorlevel% neq 0 (
-    echo [ERROR] Packaging failed.
+    echo [ERROR] electron-builder failed.
     pause
     exit /b 1
 )
@@ -34,7 +43,9 @@ if %errorlevel% neq 0 (
 echo.
 echo  ================================================
 echo   Build complete!
-echo   dist-electron\NotaraCBR-win32-x64\NotaraCBR.exe
+echo.
+echo   Installer:  dist-electron\NotaraCBR Setup.exe
+echo   Portable:   dist-electron\NotaraCBR.exe
 echo  ================================================
 echo.
 pause
