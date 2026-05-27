@@ -4,12 +4,12 @@
   <p><strong>A clean, minimal comic book reader for desktop.</strong></p>
 
   [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-  [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS-blue)](https://github.com/jrw585jxc/notara-cbr/releases/latest)
+  [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-blue)](https://github.com/jrw585jxc/notara-cbr/releases/latest)
   [![Built with Electron](https://img.shields.io/badge/built%20with-Electron-47848F)](https://www.electronjs.org/)
 
   <br />
 
-  [**Download for Windows (.exe)**](https://github.com/jrw585jxc/notara-cbr/releases/latest) &nbsp;·&nbsp; [View all releases](https://github.com/jrw585jxc/notara-cbr/releases)
+  [**Download for Windows (.exe)**](https://github.com/jrw585jxc/notara-cbr/releases/latest) &nbsp;·&nbsp; [**Download for macOS (.zip)**](https://github.com/jrw585jxc/notara-cbr/releases/latest) &nbsp;·&nbsp; [View all releases](https://github.com/jrw585jxc/notara-cbr/releases)
 
 </div>
 
@@ -89,7 +89,11 @@ The reader is designed to disappear. Controls auto-hide while you're reading and
 2. Unzip and drag **NotaraCBR.app** into your Applications folder.
 3. On first launch, right-click the app and choose **Open** to bypass the Gatekeeper warning.
 
-> **Gatekeeper:** Notara apps ship unsigned (no paid Apple Developer membership required for open-source distribution). Right-click → Open bypasses this once; after that it opens normally.
+> **Gatekeeper:** NotaraCBR ships unsigned (no paid Apple Developer membership required for open-source distribution). Right-click → Open bypasses this once; after that it opens normally.
+
+### Linux
+
+Build from source using the script below. No pre-built binary is provided for Linux.
 
 ---
 
@@ -114,19 +118,26 @@ This starts Vite (renderer) and Electron concurrently. The app opens automatical
 
 ### Build a distributable
 
-```bash
-npm run build
+**Windows:**
+```bat
+build.bat
 ```
 
-Output goes to `dist-electron/`.
+**macOS / Linux:**
+```bash
+chmod +x build.sh
+./build.sh
+```
+
+The script detects your platform and architecture automatically (x64 or arm64). Output goes to `dist-electron/`.
 
 ### Project structure
 
 ```
 notara-cbr/
 ├── electron/
-│   ├── main.js         ← Electron main process (window, IPC, file reading)
-│   └── preload.js      ← IPC surface exposed to renderer
+│   ├── main.js             ← Electron main process (window, IPC, file reading)
+│   └── preload.js          ← IPC surface exposed to renderer
 ├── src/
 │   ├── components/
 │   │   ├── Library.jsx     ← Main library view with sidebar and grid
@@ -144,7 +155,10 @@ notara-cbr/
 │   │   ├── comicLoader.js  ← CBZ / CBR / PDF parsing via IPC
 │   │   └── accentColors.js ← 8-color accent palette and CSS var applicator
 │   └── App.jsx
-├── public/             ← App icons and logo
+├── public/                 ← App icons and logo
+├── build.bat               ← Windows build script
+├── build.sh                ← macOS / Linux build script
+├── .gitignore
 └── package.json
 ```
 
@@ -171,6 +185,9 @@ xcode-select --install
 
 # Windows
 npm install --global windows-build-tools
+
+# Linux (Debian / Ubuntu)
+sudo apt install build-essential
 ```
 
 CBZ and PDF work regardless. If a CBR file fails to load the app shows an inline error without crashing.
