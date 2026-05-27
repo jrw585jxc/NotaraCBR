@@ -3,6 +3,10 @@ const path = require('path');
 const fs = require('fs');
 const os = require('os');
 
+// Handle Squirrel install/update/uninstall events — must be before anything else.
+// This creates/removes Start Menu shortcuts so the app appears in Windows Search.
+if (require('electron-squirrel-startup')) app.quit();
+
 const isDev = process.env.NODE_ENV === 'development' || !app.isPackaged;
 
 let mainWindow;
