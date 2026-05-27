@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="public/cbr-logo.svg" width="72" height="72" alt="NotaraCBR" />
+  <img src="public/cbr-icon.svg" width="72" height="72" alt="NotaraCBR" />
   <h1>NotaraCBR</h1>
   <p><strong>A clean, minimal comic book reader for desktop.</strong></p>
 
