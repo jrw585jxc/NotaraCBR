@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" width="320" height="320" role="img" aria-label="Panel — stacked comic issues with constellation bolt, monochrome">
+  <title>Panel app icon — Mono</title>
+
+  
+  <rect width="320" height="320" fill="#f5f0e6"></rect>
+
+  
+  <defs>
+    <g id="bolt">
+      <polyline points="42,8 70,44 34,56 60,92" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <circle cx="42" cy="8" r="8" fill="currentColor"></circle>
+      <circle cx="70" cy="44" r="8" fill="currentColor"></circle>
+      <circle cx="34" cy="56" r="8" fill="currentColor"></circle>
+      <circle cx="60" cy="92" r="8" fill="currentColor"></circle>
+    </g>
+  </defs>
+
+  
+  <g transform="rotate(-9 123 159) translate(75 93)">
+    <rect x="2" y="3" width="96" height="132" rx="2" fill="#0e0e0e"></rect>
+    <rect width="96" height="132" rx="2" fill="#f5f0e6" stroke="#0e0e0e" stroke-width="3"></rect>
+    <g transform="translate(8 8)">
+      <rect width="30" height="18" fill="#f5f0e6" stroke="#0e0e0e" stroke-width="2"></rect>
+      <text x="15" y="10" text-anchor="middle" dominant-baseline="central" font-family="&#39;Archivo Black&#39;, &#39;Arial Black&#39;, Impact, sans-serif" font-weight="900" font-size="10" fill="#0e0e0e">#03</text>
+    </g>
+    <svg x="20" y="47" width="56" height="56" viewBox="0 0 100 100" overflow="visible" color="#0e0e0e">
+      <use href="#bolt"></use>
+    </svg>
+  </g>
+
+  
+  <g transform="rotate(5 151 149) translate(103 83)">
+    <rect x="2" y="3" width="96" height="132" rx="2" fill="#0e0e0e"></rect>
+    <rect width="96" height="132" rx="2" fill="#7a7872" stroke="#0e0e0e" stroke-width="3"></rect>
+    <g transform="translate(8 8)">
+      <rect width="30" height="18" fill="#f5f0e6" stroke="#0e0e0e" stroke-width="2"></rect>
+      <text x="15" y="10" text-anchor="middle" dominant-baseline="central" font-family="&#39;Archivo Black&#39;, &#39;Arial Black&#39;, Impact, sans-serif" font-weight="900" font-size="10" fill="#0e0e0e">#02</text>
+    </g>
+    <svg x="20" y="47" width="56" height="56" viewBox="0 0 100 100" overflow="visible" color="#f5f0e6">
+      <use href="#bolt"></use>
+    </svg>
+  </g>
+
+  
+  <g transform="rotate(-2 177 163) translate(129 97)">
+    <rect x="2" y="3" width="96" height="132" rx="2" fill="#0e0e0e"></rect>
+    <rect width="96" height="132" rx="2" fill="#0e0e0e" stroke="#0e0e0e" stroke-width="3"></rect>
+    <g transform="translate(8 8)">
+      <rect width="30" height="18" fill="#f5f0e6" stroke="#0e0e0e" stroke-width="2"></rect>
+      <text x="15" y="10" text-anchor="middle" dominant-baseline="central" font-family="&#39;Archivo Black&#39;, &#39;Arial Black&#39;, Impact, sans-serif" font-weight="900" font-size="10" fill="#0e0e0e">#01</text>
+    </g>
+    <svg x="20" y="47" width="56" height="56" viewBox="0 0 100 100" overflow="visible" color="#f5f0e6">
+      <use href="#bolt"></use>
+    </svg>
+  </g>
+</svg>
