@@ -23,10 +23,24 @@ function load() {
   }
 }
 
+let _saveTimer = null;
 function save(state) {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  } catch {}
+  // Debounce: many rapid updates (e.g. cover loads on startup) collapse into one write.
+  if (_saveTimer) clearTimeout(_saveTimer);
+  _saveTimer = setTimeout(() => {
+    try {
+      // Strip covers before saving — they're large base64 strings that push
+      // localStorage over its ~5 MB limit, silently wiping the whole store.
+      // Covers are cached on disk in Electron's userData instead.
+      const stripped = {
+        ...state,
+        comics: Object.fromEntries(
+          Object.entries(state.comics).map(([id, c]) => [id, { ...c, cover: null }])
+        ),
+      };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(stripped));
+    } catch {}
+  }, 400);
 }
 
 const DEFAULT_STATE = {
@@ -40,6 +54,7 @@ const DEFAULT_STATE = {
     sortDir: 'desc',
     theme: 'dark',
     accentColor: 'orange',
+    comicsDirectory: null,
   },
 };
 
@@ -71,6 +86,7 @@ class LibraryStore {
     const comic = {
       id,
       filePath,
+      fingerprint: meta.fingerprint || null,
       name: meta.name || filePath.split(/[\\/]/).pop().replace(/\.\w+$/, ''),
       ext: meta.ext || filePath.split('.').pop().toLowerCase(),
       size: meta.size || 0,
@@ -138,6 +154,19 @@ class LibraryStore {
 
   setCover(id, coverDataUrl) {
     this.updateComic(id, { cover: coverDataUrl });
+  }
+
+  /** Apply covers for many comics in one store mutation → one React re-render. */
+  setCovers(coversMap) {
+    // coversMap: { [comicId]: dataUrl }
+    const entries = Object.entries(coversMap).filter(([id]) => this._state.comics[id]);
+    if (!entries.length) return;
+    const comics = { ...this._state.comics };
+    for (const [id, cover] of entries) {
+      comics[id] = { ...comics[id], cover };
+    }
+    this._state = { ...this._state, comics };
+    this._notify();
   }
 
   setTotalPages(id, count) {
@@ -239,6 +268,23 @@ class LibraryStore {
   updateSettings(updates) {
     this._state = { ...this._state, settings: { ...this._state.settings, ...updates } };
     this._notify();
+  }
+
+  setComicsDirectory(dirPath) {
+    this.updateSettings({ comicsDirectory: dirPath });
+  }
+
+  // ─── Dedup helper ─────────────────────────────────────────────────────────
+
+  /** Returns the existing comic entry for a given file path, or null if not present. */
+  getComicByPath(filePath) {
+    return Object.values(this._state.comics).find(c => c.filePath === filePath) || null;
+  }
+
+  /** Returns the existing comic entry for a given fingerprint, or null if not present. */
+  getComicByFingerprint(fingerprint) {
+    if (!fingerprint) return null;
+    return Object.values(this._state.comics).find(c => c.fingerprint === fingerprint) || null;
   }
 
   // ─── Computed views ───────────────────────────────────────────────────────

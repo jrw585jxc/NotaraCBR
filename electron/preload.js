@@ -21,4 +21,13 @@ contextBridge.exposeInMainWorld('electronAPI', {
 
   // Library
   scanFolder: (folderPath) => ipcRenderer.invoke('library:scanFolder', folderPath),
+
+  // Fingerprinting & progress file
+  fingerprint:   (filePath)         => ipcRenderer.invoke('comic:fingerprint', filePath),
+  readProgress:  (folderPath)       => ipcRenderer.invoke('progress:read', folderPath),
+  writeProgress: (folderPath, data) => ipcRenderer.invoke('progress:write', folderPath, data),
+
+  // Cover disk cache
+  readCover:  (fingerprint)          => ipcRenderer.invoke('cover:read', fingerprint),
+  writeCover: (fingerprint, dataUrl) => ipcRenderer.invoke('cover:write', fingerprint, dataUrl),
 });

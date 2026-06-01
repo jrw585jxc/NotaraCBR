@@ -1,13 +1,13 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, memo } from 'react';
 import { libraryStore } from '../store/libraryStore';
 
 const STATUS_ITEMS = [
-  { value: 'all',       label: 'All Comics',  icon: '◈' },
-  { value: 'reading',   label: 'Reading',     icon: '▷' },
-  { value: 'unread',    label: 'Unread',      icon: '○' },
-  { value: 'completed', label: 'Completed',   icon: '✓' },
-  { value: 'on-hold',   label: 'On Hold',     icon: '‖' },
-  { value: 'dropped',   label: 'Dropped',     icon: '✕' },
+  { value: 'all',       label: 'All Comics',  icon: '◈', color: 'var(--accent)' },
+  { value: 'reading',   label: 'Reading',     icon: '▷', color: '#3b82f6' },
+  { value: 'unread',    label: 'Unread',      icon: '○', color: '#9ca3af' },
+  { value: 'completed', label: 'Completed',   icon: '✓', color: '#22c55e' },
+  { value: 'on-hold',   label: 'On Hold',     icon: '‖', color: '#e8943a' },
+  { value: 'dropped',   label: 'Dropped',     icon: '✕', color: '#ef4444' },
 ];
 
 function SidebarSection({ title, children, collapsible = true }) {
@@ -30,37 +30,42 @@ function SidebarSection({ title, children, collapsible = true }) {
   );
 }
 
-function SidebarItem({ label, icon, active, count, onClick }) {
+const SidebarItem = memo(function SidebarItem({ label, icon, active, count, onClick, color }) {
+  const activeColor = color || 'var(--accent)';
   return (
     <button
       onClick={onClick}
       className={`w-full flex items-center gap-2.5 px-3 py-1.5 rounded-md transition-all text-sm mx-1 ${
-        active
-          ? 'bg-accent/10 text-accent font-medium'
-          : 'text-text-secondary hover:bg-bg-elevated hover:text-text-primary'
+        active ? 'font-medium' : 'text-text-secondary hover:bg-bg-elevated hover:text-text-primary'
       }`}
-      style={{ width: 'calc(100% - 8px)' }}
+      style={{
+        width: 'calc(100% - 8px)',
+        ...(active ? {
+          background: activeColor + '18',
+          color: activeColor,
+        } : {}),
+      }}
     >
       {icon && (
         <span
           className="flex-shrink-0 tabular-nums"
-          style={{ fontSize: 11, width: 14, textAlign: 'center', opacity: active ? 1 : 0.55 }}
+          style={{ fontSize: 11, width: 14, textAlign: 'center', opacity: active ? 1 : 0.55, color: active ? activeColor : undefined }}
         >
           {icon}
         </span>
       )}
       <span className="flex-1 text-left truncate">{label}</span>
       {count !== undefined && (
-        <span className={`text-xs tabular-nums ${active ? 'text-accent/60' : 'text-text-muted'}`}>
+        <span className="text-xs tabular-nums" style={{ color: active ? activeColor + 'aa' : undefined, opacity: active ? 1 : 0.5 }}>
           {count}
         </span>
       )}
     </button>
   );
-}
+});
 
-export default function Sidebar({ library, activeSection, onSelectSection, onAddFiles, onAddFolder }) {
-  const { comics, collections, tags } = library;
+const Sidebar = memo(function Sidebar({ comics, collections, tags, activeSection, onSelectSection, onAddFiles, onAddFolder, onAddCollection }) {
+  // comics, collections, tags are passed as direct props
   const [newColName, setNewColName] = useState('');
   const [showNewCol, setShowNewCol] = useState(false);
 
@@ -75,7 +80,7 @@ export default function Sidebar({ library, activeSection, onSelectSection, onAdd
   const handleCreateCollection = (e) => {
     e.preventDefault();
     if (!newColName.trim()) return;
-    library.addCollection(newColName.trim());
+    onAddCollection(newColName.trim());
     setNewColName('');
     setShowNewCol(false);
   };
@@ -137,6 +142,7 @@ export default function Sidebar({ library, activeSection, onSelectSection, onAdd
               key={item.value}
               label={item.label}
               icon={item.icon}
+              color={item.color}
               active={activeSection.type === 'status' && activeSection.value === item.value}
               count={statusCounts[item.value] || 0}
               onClick={() => onSelectSection({ type: 'status', value: item.value })}
@@ -230,4 +236,6 @@ export default function Sidebar({ library, activeSection, onSelectSection, onAdd
       </div>
     </div>
   );
-}
+});
+
+export default Sidebar;

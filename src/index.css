@@ -83,3 +83,29 @@
   .no-drag   { -webkit-app-region: no-drag; }
   .text-shadow-glow { text-shadow: 0 0 20px rgba(232, 148, 58, 0.45); }
 }
+
+/* ── Animations ───────────────────────────────────────────────── */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes spinnerRotate {
+  from { transform: rotate(-90deg); }
+  to   { transform: rotate(270deg); }
+}
+
+@keyframes loaderFadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes loaderPulse {
+  0%, 100% { opacity: 0.5; }
+  50%       { opacity: 1;   }
+}
+
+@keyframes loaderScan {
+  0%   { left: -60%; }
+  100% { left: 110%; }
+}

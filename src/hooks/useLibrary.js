@@ -1,5 +1,6 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { libraryStore } from '../store/libraryStore';
+import { saveProgressToFile } from '../utils/comicLoader';
 
 export function useLibrary() {
   const [state, setState] = useState(() => libraryStore.getState());
@@ -8,12 +9,14 @@ export function useLibrary() {
     return libraryStore.subscribe(setState);
   }, []);
 
-  const comics = Object.values(state.comics);
+  // Memoize derived arrays so consumers' useMemos don't recompute on every render
+  const comics = useMemo(() => Object.values(state.comics), [state.comics]);
+  const collections = useMemo(() => Object.values(state.collections), [state.collections]);
 
   return {
     state,
     comics,
-    collections: Object.values(state.collections),
+    collections,
     tags: state.tags,
     settings: state.settings,
 
@@ -21,7 +24,7 @@ export function useLibrary() {
     addComic: useCallback((...args) => libraryStore.addComic(...args), []),
     updateComic: useCallback((...args) => libraryStore.updateComic(...args), []),
     removeComic: useCallback((...args) => libraryStore.removeComic(...args), []),
-    saveProgress: useCallback((...args) => libraryStore.saveProgress(...args), []),
+    saveProgress: useCallback((...args) => saveProgressToFile(...args), []),
     setCover: useCallback((...args) => libraryStore.setCover(...args), []),
     setTotalPages: useCallback((...args) => libraryStore.setTotalPages(...args), []),
 
@@ -38,6 +41,7 @@ export function useLibrary() {
 
     // Settings
     updateSettings: useCallback((...args) => libraryStore.updateSettings(...args), []),
+    setComicsDirectory: useCallback((dir) => libraryStore.setComicsDirectory(dir), []),
 
     // Computed
     getComicsByStatus: useCallback((...args) => libraryStore.getComicsByStatus(...args), []),

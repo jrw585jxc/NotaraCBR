@@ -80,7 +80,7 @@ function AccentPicker({ accentColor, onAccentColor }) {
   );
 }
 
-export default function TopBar({ title, count, search, onSearch, sortBy, sortDir, onSort, viewMode, onViewMode, accentColor, onAccentColor }) {
+export default function TopBar({ title, count, search, onSearch, sortBy, sortDir, onSort, viewMode, onViewMode, accentColor, onAccentColor, comicsDirectory, onRefresh, isRefreshing }) {
   const hasElectron = typeof window !== 'undefined' && window.electronAPI;
 
   return (
@@ -142,6 +142,30 @@ export default function TopBar({ title, count, search, onSearch, sortBy, sortDir
         >
           {sortDir === 'asc' ? '↑' : '↓'}
         </button>
+
+        {/* Refresh — only shown when a comics directory is set */}
+        {comicsDirectory && (
+          <button
+            onClick={onRefresh}
+            disabled={isRefreshing}
+            className={`flex items-center justify-center w-7 h-7 rounded-md transition-colors text-sm ${
+              isRefreshing
+                ? 'text-text-muted cursor-not-allowed'
+                : 'text-text-muted hover:text-text-primary hover:bg-bg-elevated'
+            }`}
+            title={isRefreshing ? 'Scanning…' : `Refresh library (${comicsDirectory})`}
+            style={{ transformOrigin: 'center' }}
+          >
+            <span
+              style={{
+                display: 'inline-block',
+                animation: isRefreshing ? 'spin 1s linear infinite' : 'none',
+              }}
+            >
+              ↻
+            </span>
+          </button>
+        )}
 
         {/* Divider */}
         <div className="w-px h-4 mx-1" style={{ background: 'var(--border-subtle)' }} />

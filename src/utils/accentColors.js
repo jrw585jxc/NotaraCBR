@@ -1,38 +1,37 @@
 // ── Accent colour palette ─────────────────────────────────────────────────────
-// Matches the Notara notes app palette exactly (dark-mode values only for CBR).
 
 export const ACCENT_PALETTE = [
   {
-    id: 'orange', label: 'Orange', swatch: '#e8943a',
-    accent: '#e8943a', hover: '#f5a84d', light: 'rgba(232,148,58,0.14)',
+    id: 'orange', label: 'Ember', swatch: '#F97316',
+    accent: '#F97316', hover: '#FB923C', light: 'rgba(249,115,22,0.14)',
   },
   {
-    id: 'red', label: 'Red', swatch: '#e85a42',
-    accent: '#e85a42', hover: '#f07060', light: 'rgba(232,90,66,0.14)',
+    id: 'red', label: 'Ruby', swatch: '#EF4444',
+    accent: '#EF4444', hover: '#F87171', light: 'rgba(239,68,68,0.14)',
   },
   {
-    id: 'amber', label: 'Amber', swatch: '#d4a830',
-    accent: '#d4a830', hover: '#e8c048', light: 'rgba(212,168,48,0.14)',
+    id: 'amber', label: 'Gold', swatch: '#EAB308',
+    accent: '#EAB308', hover: '#FACC15', light: 'rgba(234,179,8,0.14)',
   },
   {
-    id: 'green', label: 'Green', swatch: '#4ab870',
-    accent: '#4ab870', hover: '#60d088', light: 'rgba(74,184,112,0.14)',
+    id: 'green', label: 'Jade', swatch: '#22C55E',
+    accent: '#22C55E', hover: '#4ADE80', light: 'rgba(34,197,94,0.14)',
   },
   {
-    id: 'teal', label: 'Teal', swatch: '#30c0c0',
-    accent: '#30c0c0', hover: '#48d8d8', light: 'rgba(48,192,192,0.14)',
+    id: 'teal', label: 'Cyan', swatch: '#06B6D4',
+    accent: '#06B6D4', hover: '#22D3EE', light: 'rgba(6,182,212,0.14)',
   },
   {
-    id: 'blue', label: 'Blue', swatch: '#4a8ae0',
-    accent: '#4a8ae0', hover: '#60a0f0', light: 'rgba(74,138,224,0.14)',
+    id: 'blue', label: 'Sapphire', swatch: '#3B82F6',
+    accent: '#3B82F6', hover: '#60A5FA', light: 'rgba(59,130,246,0.14)',
   },
   {
-    id: 'purple', label: 'Purple', swatch: '#a855f0',
-    accent: '#a855f0', hover: '#c070ff', light: 'rgba(168,85,240,0.14)',
+    id: 'purple', label: 'Violet', swatch: '#8B5CF6',
+    accent: '#8B5CF6', hover: '#A78BFA', light: 'rgba(139,92,246,0.14)',
   },
   {
-    id: 'pink', label: 'Pink', swatch: '#e855a0',
-    accent: '#e855a0', hover: '#f070b8', light: 'rgba(232,85,160,0.14)',
+    id: 'pink', label: 'Fuchsia', swatch: '#EC4899',
+    accent: '#EC4899', hover: '#F472B6', light: 'rgba(236,72,153,0.14)',
   },
 ];
 

@@ -1,23 +1,32 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024" role="img" aria-label="Panel — pentagonal shield with letter N constellation app icon">
-  <title>Panel app icon — Shield with N</title>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Flash app logo">
+  <defs>
+    <radialGradient id="flashRed" cx="30%" cy="18%" r="120%">
+      <stop offset="0%" stop-color="#C5331F"></stop>
+      <stop offset="50%" stop-color="#A02718"></stop>
+      <stop offset="100%" stop-color="#7C1F12"></stop>
+    </radialGradient>
+  </defs>
 
   
-  <rect width="1024" height="1024" rx="230" ry="230" fill="#0e0e0e"></rect>
+  <rect x="0" y="0" width="512" height="512" rx="116" ry="116" fill="url(#flashRed)"></rect>
 
   
-  <g fill="none" stroke="#8a8a8a" stroke-width="10" stroke-linejoin="round" stroke-linecap="round">
-    <polygon points="272,300 752,300 834,540 512,860 190,540"></polygon>
+  <g transform="translate(66.6,66.6) scale(3.788)" fill="none" stroke="none">
+    
+    <g fill="#F4C40D" fill-opacity="0.20">
+      <circle cx="60" cy="12" r="13"></circle>
+      <circle cx="40" cy="50" r="13"></circle>
+      <circle cx="60" cy="50" r="13"></circle>
+      <circle cx="40" cy="88" r="13"></circle>
+    </g>
+    
+    <polyline points="60,12 40,50 60,50 40,88" fill="none" stroke="#F4C40D" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"></polyline>
+    
+    <g fill="#F4C40D">
+      <circle cx="60" cy="12" r="7"></circle>
+      <circle cx="40" cy="50" r="7"></circle>
+      <circle cx="60" cy="50" r="7"></circle>
+      <circle cx="40" cy="88" r="7"></circle>
+    </g>
   </g>
-
-  
-  <g fill="#ffffff">
-    <circle cx="272" cy="300" r="26"></circle>
-    <circle cx="752" cy="300" r="26"></circle>
-    <circle cx="834" cy="540" r="26"></circle>
-    <circle cx="512" cy="860" r="26"></circle>
-    <circle cx="190" cy="540" r="26"></circle>
-  </g>
-
-  
-  <text x="512" y="508" text-anchor="middle" dominant-baseline="central" font-family="&#39;Cormorant Garamond&#39;, &#39;Playfair Display&#39;, &#39;EB Garamond&#39;, Georgia, serif" font-style="italic" font-weight="500" font-size="340" fill="#ffffff">N</text>
 </svg>

@@ -16,6 +16,103 @@ const SNAP_THRESHOLD  = 0.22;  // fraction of width to trigger page snap
 const SNAP_DURATION   = 280;   // ms for snap / spring-back animation
 const SWIPE_MAX_ZOOM  = 1.12;  // below this zoom level → swipe mode; above → pan mode
 
+// ── Comic loader ─────────────────────────────────────────────────────────────
+function ComicLoader({ comic }) {
+  return (
+    <div
+      className="absolute inset-0 flex items-center justify-center overflow-hidden"
+      style={{ background: '#0e0e0e' }}
+    >
+      {/* Blurred cover backdrop */}
+      {comic.cover && (
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage:    `url(${comic.cover})`,
+            backgroundSize:     'cover',
+            backgroundPosition: 'center',
+            filter:             'blur(40px) brightness(0.18) saturate(0.5)',
+            transform:          'scale(1.1)',
+          }}
+        />
+      )}
+
+      {/* Vignette */}
+      <div
+        className="absolute inset-0"
+        style={{ background: 'radial-gradient(ellipse at center, transparent 15%, rgba(0,0,0,0.88) 100%)' }}
+      />
+
+      {/* Content */}
+      <div
+        className="relative flex flex-col items-center"
+        style={{ gap: 18, animation: 'loaderFadeIn 0.45s ease both' }}
+      >
+        {/* Cover — shown as a proper portrait card */}
+        <div style={{ position: 'relative', width: 116, height: 174, flexShrink: 0 }}>
+          {comic.cover ? (
+            <img
+              src={comic.cover}
+              alt=""
+              style={{
+                width:        '100%',
+                height:       '100%',
+                objectFit:    'cover',
+                borderRadius: 6,
+                display:      'block',
+                boxShadow:    '0 12px 48px rgba(0,0,0,0.85), 0 2px 8px rgba(0,0,0,0.6)',
+              }}
+            />
+          ) : (
+            <div style={{
+              width: '100%', height: '100%', borderRadius: 6,
+              background: 'rgba(255,255,255,0.05)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontSize: 40,
+            }}>
+              📚
+            </div>
+          )}
+          {/* Subtle page-edge highlight */}
+          <div style={{
+            position: 'absolute', inset: 0, borderRadius: 6, pointerEvents: 'none',
+            background: 'linear-gradient(135deg, rgba(255,255,255,0.09) 0%, transparent 55%)',
+          }} />
+        </div>
+
+        {/* Title */}
+        <div className="flex flex-col items-center gap-0.5 text-center" style={{ maxWidth: 300, padding: '0 24px' }}>
+          <p
+            className="font-semibold text-white truncate w-full text-center"
+            style={{ fontSize: 14, letterSpacing: '0.01em', textShadow: '0 1px 6px rgba(0,0,0,0.9)' }}
+          >
+            {comic.name}
+          </p>
+          {comic.series && (
+            <p className="text-xs truncate w-full text-center" style={{ color: 'rgba(255,255,255,0.35)' }}>
+              {comic.series}
+            </p>
+          )}
+        </div>
+
+        {/* Thin scanning loader bar */}
+        <div style={{
+          width: 116, height: 2, borderRadius: 999,
+          background: 'rgba(255,255,255,0.08)',
+          overflow: 'hidden', position: 'relative',
+        }}>
+          <div style={{
+            position: 'absolute', top: 0, bottom: 0,
+            width: '55%', borderRadius: 999,
+            background: 'var(--accent)',
+            animation: 'loaderScan 1.3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+          }} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ── Progress bar ─────────────────────────────────────────────────────────────
 function ProgressBar({ current, total, onScrub, onSeek }) {
   const barRef      = useRef(null);
@@ -414,7 +511,11 @@ export default function Reader({ comic, onClose, saveProgress }) {
     const onKey = (e) => {
       if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); goNext(); }
       else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); goPrev(); }
-      else if (e.key === 'Escape')   onClose();
+      else if (e.key === 'Escape') {
+        // In fullscreen: first press exits fullscreen; second press (windowed) closes reader
+        if (isFullscreenRef.current) toggleFullscreen();
+        else onClose();
+      }
       else if (e.key === 'F11')      toggleFullscreen();
       else if (e.key === 'f' || e.key === 'F') cycleFit();
       else if (e.key === '+' || e.key === '=') setZoom(z => Math.min(z * 1.15, 6));
@@ -527,10 +628,7 @@ export default function Reader({ comic, onClose, saveProgress }) {
       {/* ── Page strip ───────────────────────────────────────────────────── */}
       <div ref={containerRef} className="flex-1 overflow-hidden" style={{ position: 'relative' }}>
         {loading ? (
-          <div className="flex flex-col items-center justify-center gap-4 h-full opacity-40 pointer-events-none">
-            <div className="text-5xl">📚</div>
-            <p className="text-white text-sm">Loading {comic.name}…</p>
-          </div>
+          <ComicLoader comic={comic} />
         ) : error ? (
           <div className="flex flex-col items-center justify-center gap-4 h-full">
             <p className="text-red-400 text-sm">Failed to load: {error}</p>

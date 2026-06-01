@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Library from './components/Library';
 import Reader from './components/Reader';
 import { useLibrary } from './hooks/useLibrary';
 import { applyAccentColor } from './utils/accentColors';
+import { syncComicsDirectory } from './utils/comicLoader';
 
 export default function App() {
   const [activeComicId, setActiveComicId] = useState(null);
@@ -13,8 +14,20 @@ export default function App() {
     applyAccentColor(library.settings?.accentColor || 'orange');
   }, [library.settings?.accentColor]);
 
-  const openComic = (id) => setActiveComicId(id);
-  const closeReader = () => setActiveComicId(null);
+  // On startup, rescan the saved comics directory for new files
+  useEffect(() => {
+    if (library.settings?.comicsDirectory) {
+      syncComicsDirectory({
+        addComic: library.addComic,
+        setCover: library.setCover,
+      });
+    }
+    // Only run once on mount
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const openComic  = useCallback((id) => setActiveComicId(id), []);
+  const closeReader = useCallback(() => setActiveComicId(null), []);
 
   const activeComic = activeComicId ? library.state.comics[activeComicId] : null;
 
